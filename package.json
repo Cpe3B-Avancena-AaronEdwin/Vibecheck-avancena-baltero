@@ -1,0 +1,25 @@
+{
+  "name": "vibecheck-avancena-baltero",
+  "version": "1.0.0",
+  "description": "A simple full-stack project using **Node.js + Express** (backend API) and **HTML + JavaScript** (frontend UI).  \r Built for **CPE 411L** to demonstrate how servers, APIs, and frontend fetch work together.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cpe3B-Avancena-AaronEdwin/Vibecheck-avancena-baltero.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Cpe3B-Avancena-AaronEdwin/Vibecheck-avancena-baltero/issues"
+  },
+  "homepage": "https://github.com/Cpe3B-Avancena-AaronEdwin/Vibecheck-avancena-baltero#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1"
+  }
+}
