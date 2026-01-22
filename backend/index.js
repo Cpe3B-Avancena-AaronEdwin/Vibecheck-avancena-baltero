@@ -19,24 +19,24 @@ app.use(cors());
 // This allows Express to read JSON bodies (used for POST requests).
 app.use(express.json());
 
-// Data pools (random picks). You can customize these.
+// Data pools (random picks). You can cusstomize these.
 const fortunes = [
-  "You will debug it in 5 minutes... after 55 minutes of panic.",
-  "Your next commit will be clean and meaningful.",
-  "A bug will disappear when you add one console.log().",
-  "You passed the vibe check today. 😎",
+  "Aries-Magha-half day ka sa trabaho para mamakla",
+  "Cancer-mahihiyang ang iyong biyenan sa bago niyong dog food",
+  "Libra-iiwas ka sa torpedo habang nagscuba diving",
+  "Leo-malululong sa piko ang sabungero mong asawa",
 ];
 
 const jokes = [
-  "Why did the developer go broke? Because they used up all their cache.",
-  "My code has two moods: works or why-is-this-happening.",
-  "I told my program a joke... it just threw an exception.",
+  "Ano'ng favorite sport ni Dracula? Eh 'di... BAT-MINTON! did the developer go broke? Because they used up all their cache.",
+  "My code has two moods: works Ano'ng bentilador ang hot? Eh 'di... SILING fan why-is-this-happening.",
+  "I told my program a joke... it just threw an Ano'ng shoe ang masakit? Eh 'di... SHOE-ntok!.",
 ];
 
 const vibeMap = {
-  happy: { emoji: "😄", message: "Keep going - you're shipping greatness!" },
-  tired: { emoji: "🥱", message: "Hydrate. Stretch. Then commit." },
-  stressed: { emoji: "😵‍💫", message: "Breathe. One bug at a time." },
+  happy: { emoji: "😄", message: "dapat masaya kasi masaya yung emoji" },
+  tired: { emoji: "🥱", message: "matulog ka muna kaya inaantok yung emoji" },
+  stressed: { emoji: "😵‍💫", message: "ayusin mo code mo kaya nahihilo yung emoji" },
 };
 
 // Smash counter (stored in memory for now)
