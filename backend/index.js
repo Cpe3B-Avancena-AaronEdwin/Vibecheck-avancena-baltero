@@ -29,8 +29,8 @@ const fortunes = [
 
 const jokes = [
   "Ano'ng favorite sport ni Dracula? Eh 'di... BAT-MINTON! did the developer go broke? Because they used up all their cache.",
-  "My code has two moods: works Ano'ng bentilador ang hot? Eh 'di... SILING fan why-is-this-happening.",
-  "I told my program a joke... it just threw an Ano'ng shoe ang masakit? Eh 'di... SHOE-ntok!.",
+  "Ano'ng bentilador ang hot? Eh 'di... SILING fan why-is-this-happening.",
+  "Ano'ng shoe ang masakit? Eh 'di... SHOE-ntok!.",
 ];
 
 const vibeMap = {
@@ -73,7 +73,15 @@ app.get("/api/vibe", (req, res) => {
 // POST /api/smash -> increases counter and returns the updated value
 app.post("/api/smash", (req, res) => {
   smashes += 1;
-  res.json({ smashes });
+
+  let response = { smashes };
+
+  // Special check for 69
+  if (smashes === 69) {
+    response.message = "nice";
+  }
+
+  res.json(response);
 });
 
 // GET /api/smashes -> returns current counter
