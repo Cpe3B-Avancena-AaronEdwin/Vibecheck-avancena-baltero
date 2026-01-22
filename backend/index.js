@@ -1,4 +1,53 @@
 // Frontend controller (USE ONLY THIS FILE)
+/**
+ * VibeCheck API (CPE 411L)
+ *
+ * This server:
+ * - runs on your computer (localhost)
+ * - listens on a port (default: 3000)
+ * - responds to browser requests (endpoints) using JSON
+ */
+
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+const PORT = 3000;
+
+// CORS lets your frontend page call your backend API.
+app.use(cors());
+
+// This allows Express to read JSON bodies (used for POST requests).
+app.use(express.json());
+
+// Data pools (random picks). You can cusstomize these.
+const fortunes = [
+  "Aries-Magha-half day ka sa trabaho para mamakla",
+  "Cancer-mahihiyang ang iyong biyenan sa bago niyong dog food",
+  "Libra-iiwas ka sa torpedo habang nagscuba diving",
+  "Leo-malululong sa piko ang sabungero mong asawa",
+];
+
+const jokes = [
+  "Ano'ng favorite sport ni Dracula? Eh 'di... BAT-MINTON! did the developer go broke? Because they used up all their cache.",
+  "Ano'ng bentilador ang hot? Eh 'di... SILING fan why-is-this-happening.",
+  "Ano'ng shoe ang masakit? Eh 'di... SHOE-ntok!.",
+];
+
+const vibeMap = {
+  happy: { emoji: "😄", message: "dapat masaya kasi masaya yung emoji" },
+  tired: { emoji: "🥱", message: "matulog ka muna kaya inaantok yung emoji" },
+  stressed: { emoji: "😵‍💫", message: "ayusin mo code mo kaya nahihilo yung emoji" },
+};
+
+// Smash counter (stored in memory for now)
+let smashes = 0;
+
+// GET /api/fortune -> returns one random fortune
+app.get("/api/fortune", (req, res) => {
+  const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
+  res.json({ fortune: pick });
+});
 
 const out = document.getElementById("out");
 const API_BASE = "http://localhost:3000";
@@ -57,6 +106,18 @@ async function getJSON(url) {
 // 🔮 Fortune
 document.getElementById("btnFortune").addEventListener("click", async () => {
   show(await getJSON(`${API_BASE}/api/fortune`));
+// POST /api/smash -> increases counter and returns the updated value
+app.post("/api/smash", (req, res) => {
+  smashes += 1;
+
+  let response = { smashes };
+
+  // Special check for 69
+  if (smashes === 69) {
+    response.message = "nice";
+  }
+
+  res.json(response);
 });
 
 // 😂 Joke
