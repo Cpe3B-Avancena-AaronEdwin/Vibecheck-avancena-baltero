@@ -76,3 +76,71 @@ pre {
   font-size: 0.9rem;
   line-height: 1.4;
 }
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: #020617;
+  border-right: 1px solid #334155;
+  padding: 1rem;
+  transform: translateX(-180px);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* Hover reveal */
+.sidebar:hover {
+  transform: translateX(0);
+}
+
+/* Image container */
+.sidebar-img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.sidebar-img img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #38bdf8;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: #f8fafc;
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  transition: background 0.2s ease;
+}
+
+.sidebar a:hover {
+  background: #1e293b;
+}
+
+/* Hover handle */
+.sidebar::after {
+  content: "≡";
+  position: absolute;
+  top: 50%;
+  right: -32px;
+  transform: translateY(-50%);
+  background: #020617;
+  color: #f8fafc;
+  width: 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 8px 8px 0;
+  font-size: 1.2rem;
+}
