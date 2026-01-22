@@ -1,13 +1,23 @@
-// This file controls the buttons.
-// Each button calls the backend API and prints the result on screen.
-
 const out = document.getElementById("out");
-
-// If your backend runs locally, keep this.
 const API_BASE = "http://localhost:3000";
+let localSmashCount = 0;
 
-function show(obj) {
-  out.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
+// NEW Styled Show Function
+function showStyled(message, type = "") {
+  // Clear the previous content
+  out.innerHTML = ""; 
+  
+  // Create a clean text element
+  const span = document.createElement("span");
+  span.className = `output-text ${type}`;
+  span.innerHTML = message;
+  
+  out.appendChild(span);
+
+  // Trigger the "updated" glow on the pre container
+  out.classList.remove("updated");
+  void out.offsetWidth; // Trigger reflow to restart animation
+  out.classList.add("updated");
 }
 
 async function getJSON(url) {
@@ -17,29 +27,40 @@ async function getJSON(url) {
 
 document.getElementById("btnFortune").addEventListener("click", async () => {
   const data = await getJSON(`${API_BASE}/api/fortune`);
-  show(data);
+  // Assuming data is { fortune: "..." }
+  showStyled(`🔮 Fortune: ${data.fortune || data}`, "output-fortune");
 });
 
 document.getElementById("btnJoke").addEventListener("click", async () => {
   const data = await getJSON(`${API_BASE}/api/joke`);
-  show(data);
+  // Assuming data is { joke: "..." }
+  showStyled(`😂 Joke: ${data.joke || data}`, "output-joke");
 });
 
 document.querySelectorAll(".btnMood").forEach(btn => {
   btn.addEventListener("click", async () => {
     const mood = btn.dataset.mood;
     const data = await getJSON(`${API_BASE}/api/vibe?mood=${mood}`);
-    show(data);
+    // Assuming data is { message: "..." }
+    showStyled(`✨ Mood Vibe: ${data.message || data}`, `output-mood ${mood}`);
   });
 });
 
 document.getElementById("btnSmash").addEventListener("click", async () => {
+  const btn = document.getElementById("btnSmash");
+  btn.classList.add("glow-active");
+  localSmashCount++;
+
   const res = await fetch(`${API_BASE}/api/smash`, { method: "POST" });
   const data = await res.json();
-  show({ message: "SMASH registered 💥", ...data });
+  
+  // Clean output: No brackets!
+  showStyled(`💥 SMASH! Total hits: ${localSmashCount}`, "output-smash");
+
+  setTimeout(() => btn.classList.remove("glow-active"), 400);
 });
 
 document.getElementById("btnSecret").addEventListener("click", async () => {
   const data = await getJSON(`${API_BASE}/api/secret?code=411L`);
-  show(data);
+  showStyled(`🔑 Secret Found: ${data.secret || data.message}`, "output-fortune");
 });
