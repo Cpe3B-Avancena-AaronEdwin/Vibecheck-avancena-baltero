@@ -1,3 +1,4 @@
+// Frontend controller (USE ONLY THIS FILE)
 /**
  * VibeCheck API (CPE 411L)
  *
@@ -48,28 +49,63 @@ app.get("/api/fortune", (req, res) => {
   res.json({ fortune: pick });
 });
 
-// GET /api/joke -> returns one random joke
-app.get("/api/joke", (req, res) => {
-  const pick = jokes[Math.floor(Math.random() * jokes.length)];
-  res.json({ joke: pick });
-});
+const out = document.getElementById("out");
+const API_BASE = "http://localhost:3000";
 
-// GET /api/vibe?mood=happy|tired|stressed
-app.get("/api/vibe", (req, res) => {
-  const mood = (req.query.mood || "").toLowerCase();
-  const vibe = vibeMap[mood];
+// Show formatted + styled output
+function show(obj) {
+  out.className = "";
+  let typeClass = "";
 
-  if (!vibe) {
-    return res.json({
-      mood: mood || "unknown",
-      emoji: "🤔",
-      message: "Try mood=happy, tired, or stressed.",
-    });
+  // 🔮 Fortune
+  if (obj.fortune) {
+    out.textContent = `🔮 Your Fortune\n\n${obj.fortune}`;
+    typeClass = "output-fortune";
   }
 
-  res.json({ mood, ...vibe });
-});
+  // 😂 Joke
+  else if (obj.joke) {
+    out.textContent = `😂 Joke Time\n\n${obj.joke}`;
+    typeClass = "output-joke";
+  }
 
+  // 😄 Mood
+  else if (obj.mood) {
+    const mood = obj.mood.toLowerCase();
+    const emoji = obj.emoji ? `<span class="emoji">${obj.emoji}</span>` : "";
+
+    out.innerHTML =
+      `Mood: ${mood.charAt(0).toUpperCase() + mood.slice(1)} ${emoji}\n\n` +
+      `Message:\n${obj.message}`;
+
+    typeClass = `output-mood ${mood}`;
+  }
+
+  // 💥 Smash
+  else if (obj.smash) {
+    out.textContent =
+      `💥 SMASH COUNT\n\nTotal Smashes: ${obj.count ?? "N/A"}`;
+    typeClass = "output-smash";
+  }
+
+  // Fallback
+  else {
+    out.textContent = JSON.stringify(obj, null, 2);
+  }
+
+  if (typeClass) out.classList.add(typeClass);
+  out.classList.add("updated");
+}
+
+// Helper
+async function getJSON(url) {
+  const res = await fetch(url);
+  return res.json();
+}
+
+// 🔮 Fortune
+document.getElementById("btnFortune").addEventListener("click", async () => {
+  show(await getJSON(`${API_BASE}/api/fortune`));
 // POST /api/smash -> increases counter and returns the updated value
 app.post("/api/smash", (req, res) => {
   smashes += 1;
@@ -84,23 +120,30 @@ app.post("/api/smash", (req, res) => {
   res.json(response);
 });
 
-// GET /api/smashes -> returns current counter
-app.get("/api/smashes", (req, res) => {
-  res.json({ smashes });
+// 😂 Joke
+document.getElementById("btnJoke").addEventListener("click", async () => {
+  show(await getJSON(`${API_BASE}/api/joke`));
 });
 
-// GET /api/secret?code=411L -> hidden message if code is correct
-app.get("/api/secret", (req, res) => {
-  const code = req.query.code;
-
-  if (code === "411L") {
-    return res.json({ message: "🎉 Secret unlocked: +10 luck on your next merge!" });
-  }
-
-  res.status(403).json({ message: "Nope 😄 Try code=411L" });
+// 😄 Mood
+document.querySelectorAll(".btnMood").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    show(await getJSON(`${API_BASE}/api/vibe?mood=${btn.dataset.mood}`));
+  });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`VibeCheck API running at http://localhost:${PORT}`);
+// 💥 Smash
+document.getElementById("btnSmash").addEventListener("click", async () => {
+  const res = await fetch(`${API_BASE}/api/smash`, { method: "POST" });
+  const data = await res.json();
+
+  show({
+    smash: true,
+    count: data.count // backend must return this
+  });
+});
+
+// 🕵️ Secret
+document.getElementById("btnSecret").addEventListener("click", async () => {
+  show(await getJSON(`${API_BASE}/api/secret?code=411L`));
 });

@@ -2,9 +2,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --glow-color: #38bdf8; /* Default blue glow */
+}
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: 'Syncopate', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, #1e293b, #0f172a 80%);
   color: #f8fafc;
   min-height: 100vh;
   margin: 0;
@@ -12,135 +16,195 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 
 h1 {
   margin-bottom: 0.5rem;
-  font-size: 2.2rem;
-  letter-spacing: 1px;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #38bdf8, #c084fc, #f87171);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
 }
 
 p {
-  opacity: 0.85;
+  opacity: 0.7;
   margin-bottom: 2rem;
   text-align: center;
+  font-weight: 300;
 }
 
 div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
-  max-width: 600px;
+  gap: 1rem;
+  max-width: 700px;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
+/* --- Exciting Glowing Buttons --- */
 button {
-  background: #334155;
+  background: rgba(30, 41, 59, 0.7);
   color: #f8fafc;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
 }
+
+/* Individual Button Colors */
+#btnFortune { --this-color: #c084fc; border-color: var(--this-color); }
+#btnJoke    { --this-color: #facc15; border-color: var(--this-color); }
+.btnMood[data-mood="happy"]    { --this-color: #22c55e; border-color: var(--this-color); }
+.btnMood[data-mood="tired"]    { --this-color: #94a3b8; border-color: var(--this-color); }
+.btnMood[data-mood="stressed"] { --this-color: #f87171; border-color: var(--this-color); }
+#btnSmash   { --this-color: #ff4757; border-color: var(--this-color); font-weight: 900; }
+#btnSecret  { --this-color: #38bdf8; border-color: var(--this-color); }
 
 button:hover {
-  background: #475569;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  background: var(--this-color);
+  color: #000;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 20px var(--this-color);
 }
 
 button:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transform: scale(0.95);
 }
 
-h2 {
-  margin-bottom: 0.5rem;
-  max-width: 600px;
-  width: 100%;
+/* --- Smash Animation --- */
+.glow-active {
+  animation: ultra-smash 0.5s ease-out;
 }
 
+@keyframes ultra-smash {
+  0% { box-shadow: 0 0 0px var(--this-color); transform: scale(1); }
+  50% { box-shadow: 0 0 50px var(--this-color), 0 0 100px var(--this-color); transform: scale(1.2); }
+  100% { box-shadow: 0 0 10px var(--this-color); transform: scale(1); }
+}
+
+/* --- Glassmorphism Output --- */
 pre {
-  background: #020617;
-  border: 1px solid #334155;
-  border-radius: 12px;
-  padding: 1rem;
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--glow-color);
+  border-radius: 20px;
+  padding: 1.5rem;
   max-width: 600px;
   width: 100%;
+
+  /* --- PARA SA MAHABANG TEXT --- */
   min-height: 120px;
-  overflow-x: auto;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  height: auto;             /* Hahaba ang box pababa depende sa text */
+  white-space: pre-wrap;    /* Pinaka-importante: binababa ang text pag mahaba na */
+  word-wrap: break-word;    /* Puputulin ang mahahabang words para 'di lumampas */
+  text-align: center;       /* Naka-center pa rin ang text */
+  
+  /* Flexbox adjustment para centered pero flexible ang height */
+  display: flex;
+  flex-direction: column;   /* Para vertical ang flow */
+  justify-content: center;
+  align-items: center;
+  /* ----------------------------- */
+
+  font-size: 1.2rem;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
-/* Sidebar */
+
+pre.updated {
+  animation: box-glow 0.6s ease;
+}
+
+@keyframes box-glow {
+  0% { box-shadow: 0 0 0px var(--glow-color); }
+  50% { box-shadow: 0 0 30px var(--glow-color); transform: scale(1.02); }
+  100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+}
+
+/* Sidebar Styling */
 .sidebar {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   height: 100vh;
-  width: 220px;
-  background: #020617;
-  border-right: 1px solid #334155;
-  padding: 1rem;
-  transform: translateX(-180px);
-  transition: transform 0.3s ease;
+  width: 240px;
+  background: rgba(2, 6, 23, 0.95);
+  border-right: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 1.5rem;
+  transform: translateX(-190px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
-/* Hover reveal */
 .sidebar:hover {
   transform: translateX(0);
 }
 
-/* Image container */
-.sidebar-img {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.2rem;
-}
-
 .sidebar-img img {
-  width: 80px;
-  height: 80px;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  border: 3px solid #38bdf8;
+  margin-bottom: 1.5rem;
+  filter: grayscale(20%);
 }
 
-/* Sidebar links */
 .sidebar a {
   display: block;
-  color: #f8fafc;
+  color: #94a3b8;
   text-decoration: none;
-  padding: 0.55rem 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 0.25rem;
-  transition: background 0.2s ease;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .sidebar a:hover {
-  background: #1e293b;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding-left: 1.5rem;
 }
 
-/* Hover handle */
-.sidebar::after {
-  content: "≡";
-  position: absolute;
-  top: 50%;
-  right: -32px;
-  transform: translateY(-50%);
-  background: #020617;
-  color: #f8fafc;
-  width: 32px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 8px 8px 0;
-  font-size: 1.2rem;
+/* Pop GIFs Styles */
+.floating-gif {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: burstToRightGif 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
+
+.floating-gif img {
+  border-radius: 15px;
+  border: 3px solid #38bdf8;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+@keyframes burstToRightGif {
+  0% { transform: translate(0, 0) scale(0.1) rotate(-20deg); opacity: 0; }
+  20% { opacity: 1; transform: translate(60px, -40px) scale(1.2) rotate(0deg); }
+  100% { transform: translate(250px, -200px) scale(1.4) rotate(15deg); opacity: 0; }
+}
+
+/* Output Text Styles (No Brackets) */
+.output-text {
+  font-size: clamp(1rem, 5vw, 1rem); /* Lalaki at liliit base sa screen pero hindi lalampas sa 1.8rem */
+  font-weight: 800;
+
+}
+.output-fortune { color: #c084fc; }
+.output-joke { color: #facc15; }
+.output-smash { color: #f87171; font-size: 1.8rem; }
