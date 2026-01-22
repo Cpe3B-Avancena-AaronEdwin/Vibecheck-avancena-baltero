@@ -7,21 +7,23 @@
   <title>VibeCheck 411L</title>
 </head>
 <body>
-    <div class="sidebar">
-  <div class="sidebar-img">
-    <img src="logo.jpg" alt="VibeCheck Logo">
-  </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-img">
+      <img src="logo.jpg" alt="VibeCheck Logo">
+    </div>
 
-  <a href="#">🔮 Fortune</a>
-  <a href="#">😂 Joke</a>
-  <a href="#">😄 Happy</a>
-  <a href="#">🥱 Tired</a>
-  <a href="#">😵‍💫 Stressed</a>
-</div>
+    <a href="#">🔮 Fortune</a>
+    <a href="#">😂 Joke</a>
+    <a href="#">😄 Happy</a>
+    <a href="#">🥱 Tired</a>
+    <a href="#">😵‍💫 Stressed</a>
+  </div>
 
   <h1>VibeCheck 411L</h1>
   <p>Click buttons. This page will fetch data from your Node.js API.</p>
 
+  <!-- Main Buttons -->
   <div>
     <button id="btnFortune">🔮 Fortune</button>
     <button id="btnJoke">😂 Joke</button>
@@ -29,11 +31,19 @@
     <button data-mood="tired" class="btnMood">🥱 Tired</button>
     <button data-mood="stressed" class="btnMood">😵‍💫 Stressed</button>
     <button id="btnSmash">💥 SMASH!</button>
-    <button id="btnSecret">🕵️ Secret</button>
   </div>
 
+  <!-- Output Section -->
   <h2>Output</h2>
   <pre id="out">Ready...</pre>
+
+  <!-- Spacer to force scroll before secret button -->
+  <div style="height: 5000px;"></div>
+
+  <!-- Secret button moved to the very bottom -->
+  <div style="text-align:center; margin-bottom: 2rem;">
+    <button id="btnSecret">🕵️ Secret</button>
+  </div>
 
   <script src="app.js"></script>
 </body>
